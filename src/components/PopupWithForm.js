@@ -2,9 +2,9 @@ function PopupWithForm(props) {
 
 
   return (
-    <section className={`popup popup-${props.name}`}>
+    <section className={`popup popup-${props.name} ${props.isOpened ? 'popup_opened' : ''}`}>
       <div className="popup__container">
-        <button className="popup__close-button image-button" type="button" aria-label="Закрыть"/>
+        <button onClick={props.onClose} className="popup__close-button image-button" type="button" aria-label="Закрыть"/>
         <div className="popup__form-container">
           <h2 className="popup__title">{props.title}</h2>
           <form className="popup__form" name={props.name} noValidate>

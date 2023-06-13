@@ -1,55 +1,61 @@
-function handleEditAvatarClick() {
-  document.querySelector('.popup-avatar').classList.add('popup_opened')
-}
+import React from "react";
+import Card from "./Card";
 
-function handleEditProfileClick() {
-  document.querySelector('.popup-profile').classList.add('popup_opened')
-}
+function Main(props) {
+  const [userAvatar, setUserAvatar] = React.useState()
+  const [userName, setUserName] = React.useState()
+  const [userDescription, setUserDescription] = React.useState()
+  const [cards, setCards] = React.useState([])
 
-function handleAddCardClick() {
-  document.querySelector('.popup-item').classList.add('popup_opened')
-}
+  React.useEffect(() => {
+    import("../utils/api")
+      .then((api) => {
+        api.default.getUserInfo()
+          .then((user) => {
+            setUserAvatar(user.avatar)
+            setUserName(user.name)
+            setUserDescription(user.about)
+          })
+      })
+  }, [])
+
+  React.useEffect(() => {
+    import("../utils/api")
+      .then((api) => {
+        api.default.getInitialCards()
+          .then((initialCards) => {
+            setCards(initialCards)
+          })
+      })
+  }, [])
 
 
-function Main() {
   return (
     <main className="main">
       <section className="profile">
         <div className="profile__avatar-container">
-          <div onClick={handleEditAvatarClick} className="profile__avatar-overlay"/>
-          <img className="profile__avatar" src='thatWillBeChanged' alt="Аватар"/>
+          <div onClick={props.onEditAvatar} className="profile__avatar-overlay"/>
+          <img className="profile__avatar" src={userAvatar} alt="Аватар"/>
         </div>
         <div className="profile__info">
-          <h1 className="profile__name"/>
-          <p className="profile__job"/>
+          <h1 className="profile__name">{userName}</h1>
+          <p className="profile__job">{userDescription}</p>
           <button
-            onClick={handleEditProfileClick}
+            onClick={props.onEditProfile}
             className="profile__edit-button image-button"
             type="button"
             aria-label="Редактировать"
           />
         </div>
         <button
-          onClick={handleAddCardClick}
+          onClick={props.onAddCard}
           className="profile__add-button image-button"
           type="button"
           aria-label="Добавить изображение"
         />
       </section>
       <section className="elements">
-        <template id="element">
-          <div className="element">
-            <button className="element__delete image-button" aria-label="Удалить"/>
-            <img className="element__photo" src="someSrcThatWillBeChanged" alt="АльтКоторыйИзменится"/>
-            <div className="element__info">
-              <h3 className="element__name"/>
-              <div className="element__likes">
-                <button className="element__like-button image-button" type="button" aria-label="нравится"/>
-                <p className="element__likes-number"/>
-              </div>
-            </div>
-          </div>
-        </template>
+        {cards.map(card => <Card key={card._id} card={card} onCardClick={props.onCardClick}/>)}
       </section>
     </main>
   )
