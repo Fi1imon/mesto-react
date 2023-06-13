@@ -1,6 +1,7 @@
 .popup__input {
   min-width: 358px;
   min-height: 37px;
+  box-sizing: border-box;
   padding: 0;
   color: #000;
   font-size: 14px;
