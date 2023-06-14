@@ -9,6 +9,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false)
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false)
   const [isAddCardPopupOpen, setIsAddCardPopupOpen] = React.useState(false)
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false)
   const [isCardPopupOpen, setIsCardPopupOpen] = React.useState(false)
   const [selectedCard, setSelectedCard] = React.useState({})
 
@@ -30,12 +31,16 @@ function App() {
     setIsCardPopupOpen(true)
   }
 
+  function handleDeleteCardClick() {
+    setIsConfirmPopupOpen(true)
+  }
+
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false)
     setIsEditProfilePopupOpen(false)
     setIsAddCardPopupOpen(false)
     setIsCardPopupOpen(false)
-    setSelectedCard({})
+    setIsConfirmPopupOpen(false)
   }
 
   return (
@@ -46,6 +51,7 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onAddCard={handleAddCardClick}
         onCardClick={handleCardClick}
+        onDeleteCardClick={handleDeleteCardClick}
       />
       <Footer />
       {/*Попап информации профиля*/}
@@ -76,6 +82,8 @@ function App() {
               maxLength="200"
               required/>
             <span className="popup__input-error job-input-error"/>
+            <button className="popup__submit-button" type="submit">Сохранить</button>
+            <button className="popup__loading-button" type="button">Сохранение...</button>
           </>
         )}
       />
@@ -105,22 +113,26 @@ function App() {
               placeholder="Ссылка на картинку"
               required/>
             <span className="popup__input-error image-url-input-error"/>
+            <button className="popup__submit-button" type="submit">Сохранить</button>
+            <button className="popup__loading-button" type="button">Сохранение...</button>
           </>
         )}
       />
       {/*Попап просмотра фото*/}
       <ImagePopup isOpened={isCardPopupOpen} onClose={closeAllPopups} card={selectedCard}/>
       {/*Попап удаления карточки*/}
-      <section className="popup popup-delete">
-        <div className="popup-delete__container">
-          <button className="popup__close-button image-button" type="button" aria-label="Закрыть"/>
-          <div className="popup-delete__section">
-            <h2 className="popup__title">Вы уверены?</h2>
-            <button className="popup__submit-button popup-delete__button" type="submit">Да</button>
+      <PopupWithForm
+        name={'delete'}
+        title={'Вы уверены?'}
+        isOpened={isConfirmPopupOpen}
+        onClose={closeAllPopups}
+        children={(
+          <>
+            <button className="popup__submit-button popup-delete__submit-button" type="submit">Да</button>
             <button className="popup__loading-button" type="button">Сохранение...</button>
-          </div>
-        </div>
-      </section>
+          </>
+        )}
+      />
       {/*Попап обновления фото авы*/}
       <PopupWithForm
         name={'avatar'}
@@ -137,6 +149,8 @@ function App() {
               placeholder="https://somewebsite.com/someimage.jpg"
               required/>
             <span className="popup__input-error avatar-url-input-error"/>
+            <button className="popup__submit-button" type="submit">Сохранить</button>
+            <button className="popup__loading-button" type="button">Сохранение...</button>
           </>
         )}
       />
