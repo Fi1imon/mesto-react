@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "./Card";
+import api from "../utils/api.js"
 
 function Main(props) {
   const [userAvatar, setUserAvatar] = React.useState()
@@ -8,24 +9,18 @@ function Main(props) {
   const [cards, setCards] = React.useState([])
 
   React.useEffect(() => {
-    import("../utils/api.js")
-      .then((api) => {
-        api.default.getUserInfo()
-          .then((user) => {
-            setUserAvatar(user.avatar)
-            setUserName(user.name)
-            setUserDescription(user.about)
-          })
+    api.getUserInfo()
+      .then((user) => {
+        setUserAvatar(user.avatar)
+        setUserName(user.name)
+        setUserDescription(user.about)
       })
   }, [])
 
   React.useEffect(() => {
-    import("../utils/api.js")
-      .then((api) => {
-        api.default.getInitialCards()
-          .then((initialCards) => {
-            setCards(initialCards)
-          })
+    api.getInitialCards()
+      .then((initialCards) => {
+        setCards(initialCards)
       })
   }, [])
 
