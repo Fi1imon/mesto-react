@@ -15,12 +15,18 @@ function Main(props) {
         setUserName(user.name)
         setUserDescription(user.about)
       })
+      .catch((err) => {
+        console.log(`'catch' поймал ошибку: ${err}`)
+      })
   }, [])
 
   React.useEffect(() => {
     api.getInitialCards()
       .then((initialCards) => {
         setCards(initialCards)
+      })
+      .catch((err) => {
+        console.log(`'catch' поймал ошибку: ${err}`)
       })
   }, [])
 
