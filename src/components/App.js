@@ -60,6 +60,7 @@ function App() {
         title={'Редактировать профиль'}
         isOpened={isEditProfilePopupOpen}
         onClose={closeAllPopups}
+        buttonText={'Сохранить'}
         children={(
           <>
             <input
@@ -82,8 +83,6 @@ function App() {
               maxLength="200"
               required/>
             <span className="popup__input-error job-input-error"/>
-            <button className="popup__submit-button" type="submit">Сохранить</button>
-            <button className="popup__loading-button" type="button">Сохранение...</button>
           </>
         )}
       />
@@ -93,6 +92,7 @@ function App() {
         title={'Новое Место'}
         isOpened={isAddCardPopupOpen}
         onClose={closeAllPopups}
+        buttonText={'Сохранить'}
         children={(
           <>
             <input
@@ -113,8 +113,6 @@ function App() {
               placeholder="Ссылка на картинку"
               required/>
             <span className="popup__input-error image-url-input-error"/>
-            <button className="popup__submit-button" type="submit">Сохранить</button>
-            <button className="popup__loading-button" type="button">Сохранение...</button>
           </>
         )}
       />
@@ -126,12 +124,7 @@ function App() {
         title={'Вы уверены?'}
         isOpened={isConfirmPopupOpen}
         onClose={closeAllPopups}
-        children={(
-          <>
-            <button className="popup__submit-button popup-delete__submit-button" type="submit">Да</button>
-            <button className="popup__loading-button" type="button">Сохранение...</button>
-          </>
-        )}
+        buttonText={'Да'}
       />
       {/*Попап обновления фото авы*/}
       <PopupWithForm
@@ -139,6 +132,7 @@ function App() {
         title={'Обновить аватар'}
         isOpened={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
+        buttonText={'Сохранить'}
         children={(
           <>
             <input
@@ -149,8 +143,6 @@ function App() {
               placeholder="https://somewebsite.com/someimage.jpg"
               required/>
             <span className="popup__input-error avatar-url-input-error"/>
-            <button className="popup__submit-button" type="submit">Сохранить</button>
-            <button className="popup__loading-button" type="button">Сохранение...</button>
           </>
         )}
       />
