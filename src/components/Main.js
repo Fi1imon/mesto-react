@@ -9,8 +9,8 @@ function Main(props) {
 
   React.useEffect(() => {
     import("../utils/api.js")
-      .then((module) => {
-        module.api.getUserInfo()
+      .then((api) => {
+        api.default.getUserInfo()
           .then((user) => {
             setUserAvatar(user.avatar)
             setUserName(user.name)
@@ -21,8 +21,8 @@ function Main(props) {
 
   React.useEffect(() => {
     import("../utils/api.js")
-      .then((module) => {
-        module.api.getInitialCards()
+      .then((api) => {
+        api.default.getInitialCards()
           .then((initialCards) => {
             setCards(initialCards)
           })
