@@ -57,19 +57,19 @@ export class Api {
     })
   }
 
-  setLike(cardId) {
+  toggleLike(cardId, isLiked) {
     return  this._request(`cards/${cardId}/likes`, {
-      method: 'PUT',
+      method: isLiked ? 'DELETE' : 'PUT',
       headers: this._hraders
     })
   }
 
-  removeLike(cardId) {
-    return  this._request(`cards/${cardId}/likes`, {
-      method: 'DELETE',
-      headers: this._hraders
-    })
-  }
+  // removeLike(cardId) {
+  //   return  this._request(`cards/${cardId}/likes`, {
+  //     method: 'DELETE',
+  //     headers: this._hraders
+  //   })
+  // }
 
   uploadAvatar(imageUrl) {
     return  this._request('users/me/avatar', {
