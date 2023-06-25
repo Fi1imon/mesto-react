@@ -28,24 +28,24 @@ export class Api {
     })
   }
 
-  setUserInfo(values) {
+  setUserInfo({name, about}) {
     return  this._request('users/me', {
       method: 'PATCH',
       headers: this._hraders,
       body: JSON.stringify({
-        name: values.name,
-        about: values.job
+        name,
+        about
       })
     })
   }
 
-  addCard(values) {
+  addCard({title, imageUrl}) {
     return  this._request('cards', {
       method: 'POST',
       headers: this._hraders,
       body: JSON.stringify({
-        name: values['title'],
-        link: values['url']
+        name: title,
+        link: imageUrl
       })
     })
   }
@@ -71,7 +71,7 @@ export class Api {
   //   })
   // }
 
-  uploadAvatar(imageUrl) {
+  uploadAvatar({imageUrl}) {
     return  this._request('users/me/avatar', {
       method: 'PATCH',
       headers: this._hraders,
