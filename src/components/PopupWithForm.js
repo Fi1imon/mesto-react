@@ -3,23 +3,23 @@ import {FormContext} from "../contexts/FormContext";
 // import Form from "./Form";
 
 function PopupWithForm(props) {
-  const [formValues, setFormValues] = React.useState({})
+  const [formValidation, setFormValidation] = React.useState({})
   const [isValid, setIsValid] = React.useState(false)
-  const FormContextValue = { onInputChange };
+  const FormContextValue = { saveValidationResult };
 
 
-  function onInputChange(value, name) {
-    setFormValues(prevValues => ({
+  function saveValidationResult(inputName, isInputValid) {
+    setFormValidation(prevValues => ({
       ...prevValues,
-        [name]: value
+      [inputName]: isInputValid
     }))
-    console.log(name, value)
   }
 
-  // function handleChange() {
-  //   console.log(formsValues)
-  // }
+  React.useEffect(() => {
+    const formValidity = Object.values(formValidation).every(i => {return  i === true})
 
+    setIsValid(formValidity)
+  }, [formValidation])
 
   return (
     <section className={`popup popup-${props.name} ${props.isOpened ? 'popup_opened' : ''}`}>
@@ -31,7 +31,6 @@ function PopupWithForm(props) {
             className="popup__form"
             name={props.name}
             onSubmit={props.handleSubmit}
-            // onChange={handleChange}
             noValidate
           >
             <FormContext.Provider value={FormContextValue} >

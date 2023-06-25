@@ -4,7 +4,7 @@ import Input from "./Input";
 
 function AddPlacePopup(props) {
   const [formValues, setFormValue] = React.useState({title: '', imageUrl: ''});
-  const [buttonText, setButtonText] = React.useState('Сохранить')
+  const [buttonText, setButtonText] = React.useState('Сохранить');
 
   React.useEffect(() => {
     setFormValue({title: '', imageUrl: ''});
