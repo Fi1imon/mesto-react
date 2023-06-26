@@ -1,34 +1,11 @@
 import React from "react";
 import Card from "./Card";
-import api from "../utils/api.js"
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import {InitialCardsContext} from "../contexts/InitialCardsContext";
 
 function Main(props) {
-  const [userAvatar, setUserAvatar] = React.useState()
-  const [userName, setUserName] = React.useState()
-  const [userDescription, setUserDescription] = React.useState()
-  const [cards, setCards] = React.useState([])
-
-  React.useEffect(() => {
-    api.getUserInfo()
-      .then((user) => {
-        setUserAvatar(user.avatar)
-        setUserName(user.name)
-        setUserDescription(user.about)
-      })
-      .catch((err) => {
-        console.log(`'catch' поймал ошибку: ${err}`)
-      })
-  }, [])
-
-  React.useEffect(() => {
-    api.getInitialCards()
-      .then((initialCards) => {
-        setCards(initialCards)
-      })
-      .catch((err) => {
-        console.log(`'catch' поймал ошибку: ${err}`)
-      })
-  }, [])
+  const currentUser = React.useContext(CurrentUserContext);
+  const initialCards = React.useContext(InitialCardsContext);
 
 
   return (
@@ -36,11 +13,11 @@ function Main(props) {
       <section className="profile">
         <div className="profile__avatar-container">
           <div onClick={props.onEditAvatar} className="profile__avatar-overlay"/>
-          <img className="profile__avatar" src={userAvatar} alt="Аватар"/>
+          <img className="profile__avatar" src={currentUser.avatar} alt="Аватар"/>
         </div>
         <div className="profile__info">
-          <h1 className="profile__name">{userName}</h1>
-          <p className="profile__job">{userDescription}</p>
+          <h1 className="profile__name">{currentUser.name}</h1>
+          <p className="profile__job">{currentUser.about}</p>
           <button
             onClick={props.onEditProfile}
             className="profile__edit-button image-button"
@@ -56,11 +33,13 @@ function Main(props) {
         />
       </section>
       <section className="elements">
-        {cards.map(card => <Card
+        {initialCards.map(card => <Card
           key={card._id}
           card={card}
+          currentUser={currentUser}
           onCardClick={props.onCardClick}
-          onDeleteCardClick={props.onDeleteCardClick}
+          handleCardLike={props.handleCardLike}
+          handleDeleteCardClick={props.handleDeleteCardClick}
         />)}
       </section>
     </main>
