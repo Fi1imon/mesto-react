@@ -4,15 +4,15 @@ import {FormContext} from "../contexts/FormContext";
 function Input(props) {
   const [errorText, setErrorText] = React.useState('')
   const formContext = React.useContext(FormContext)
-  const input = React.createRef()
+  const inputElement = React.createRef()
 
   React.useEffect(() => {
-    if(input.current.validity.valid) {
+    if(inputElement.current.validity.valid) {
       formContext.saveValidationResult(props.name, true)
       setErrorText('')
     } else {
       formContext.saveValidationResult(props.name, false)
-      setErrorText(input.current.validationMessage)
+      setErrorText(inputElement.current.validationMessage)
     }
   }, [props.value])
 
@@ -28,7 +28,7 @@ function Input(props) {
         maxLength={props.maxLength}
         value={props.value}
         onChange={props.handleChange}
-        ref={input}
+        ref={inputElement}
         required
       />
       <span
