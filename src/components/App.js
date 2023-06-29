@@ -2,7 +2,6 @@ import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import api from "../utils/api";
@@ -96,32 +95,33 @@ function App() {
       .catch((err) => {
         console.log(`'catch' поймал ошибку: ${err}`)
       })
+      .finally(() => {setButtonText('Да');})
   }
 
   function handleUpdateUser({name, about, setButtonText}) {
     setButtonText('Сохранение...')
     api.setUserInfo({name, about})
       .then(user => {
-        setButtonText('Сохранить')
         setCurrentUser({...currentUser, name: user.name, about: user.about});
         closeAllPopups();
       })
       .catch((err) => {
         console.log(`'catch' поймал ошибку: ${err}`)
       })
+      .finally(() => {setButtonText('Сохранить')})
   }
 
   function handleUpdateAvatar({imageUrl, setButtonText}) {
     setButtonText('Сохранение...')
     api.uploadAvatar({imageUrl})
       .then(user => {
-        setButtonText('Сохранить')
         setCurrentUser({...currentUser, avatar: user.avatar});
         closeAllPopups();
       })
       .catch((err) => {
         console.log(`'catch' поймал ошибку: ${err}`)
       })
+      .finally(() => {setButtonText('Сохранить')})
   }
 
   function handleAddCardSubmit({title, imageUrl, setButtonText}) {
@@ -130,13 +130,12 @@ function App() {
     api.addCard({title, imageUrl})
       .then(card => {
         setInitialCards([card, ...initialCards]);
-        setButtonText('Сохранить');
         closeAllPopups();
       })
       .catch((err) => {
         console.log(`'catch' поймал ошибку: ${err}`)
       })
-
+      .finally(() => {setButtonText('Сохранить')})
   }
 
   return (

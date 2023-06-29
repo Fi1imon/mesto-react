@@ -37,7 +37,7 @@ function EditProfilePopup(props) {
         placeholder="Имя"
         minLength="2"
         maxLength="40"
-        value={formValues.name}
+        value={formValues.name || ''}
         handleChange={e => setFormValue({...formValues, name: e.target.value})}
         required/>
       <Input
@@ -49,7 +49,7 @@ function EditProfilePopup(props) {
         placeholder="О себе"
         minLength="2"
         maxLength="200"
-        value={formValues.description}
+        value={formValues.description || ''}
         handleChange={e => setFormValue({...formValues, description: e.target.value})}
         required/>
     </PopupWithForm>
