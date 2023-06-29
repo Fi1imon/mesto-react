@@ -2,20 +2,22 @@ import React from "react";
 import PopupWithForm from "./PopupWithForm";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import Input from "./Input";
+import {useFormAndValidation} from "../hooks/useFormAndValidation";
 
 function EditProfilePopup(props) {
-  const [formValues, setFormValue] = React.useState({name: '', description: ''});
-  const [buttonText, setButtonText] = React.useState('Сохранить')
+  const [buttonText, setButtonText] = React.useState('Сохранить');
   const currentUser = React.useContext(CurrentUserContext);
 
+  const {values, handleChange, errors, isValid, setValues} = useFormAndValidation();
+
   React.useEffect(() => {
-    setFormValue({name: currentUser.name, description: currentUser.about});
+    setValues({...values, profileName: currentUser.name, about: currentUser.about});
   }, [currentUser, props.isOpened])
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    props.onUpdate({name: formValues.name, about: formValues.description, setButtonText})
+    props.onUpdate({name: values.profileName, about: values.about, setButtonText})
   }
 
   return (
@@ -26,6 +28,7 @@ function EditProfilePopup(props) {
       onClose={props.onClose}
       buttonText={buttonText}
       handleSubmit={handleSubmit}
+      isValid={isValid}
 
     >
       <Input
@@ -33,24 +36,26 @@ function EditProfilePopup(props) {
         id="name-input"
         inputClassName="popup__input popup__input_position_top"
         errorClassName="popup__input-error name-input-error"
-        name="name"
+        name="profileName"
         placeholder="Имя"
         minLength="2"
         maxLength="40"
-        value={formValues.name}
-        handleChange={e => setFormValue({...formValues, name: e.target.value})}
+        value={values.profileName || ''}
+        handleChange={handleChange}
+        error={errors.profileName}
         required/>
       <Input
         type="text"
         id="job-input"
         inputClassName="popup__input popup__input_position_bottom"
         errorClassName="popup__input-error job-input-error"
-        name="job"
+        name="about"
         placeholder="О себе"
         minLength="2"
         maxLength="200"
-        value={formValues.description}
-        handleChange={e => setFormValue({...formValues, description: e.target.value})}
+        value={values.about || ''}
+        handleChange={handleChange}
+        error={errors.about}
         required/>
     </PopupWithForm>
   )
