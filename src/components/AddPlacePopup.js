@@ -1,19 +1,21 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 import Input from "./Input";
+import {useFormAndValidation} from "../hooks/useFormAndValidation";
 
 function AddPlacePopup(props) {
-  const [formValues, setFormValue] = React.useState({title: '', imageUrl: ''});
   const [buttonText, setButtonText] = React.useState('Сохранить');
 
+  const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
+
   React.useEffect(() => {
-    setFormValue({title: '', imageUrl: ''});
+    resetForm()
   }, [props.isOpened])
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    props.onAddCard({title: formValues.title, imageUrl: formValues.imageUrl, setButtonText})
+    props.onAddCard({title: values.title, imageUrl: values.imageUrl, setButtonText})
   }
 
   return(
@@ -23,7 +25,9 @@ function AddPlacePopup(props) {
       isOpened={props.isOpened}
       onClose={props.onClose}
       handleSubmit={handleSubmit}
+      isValid={isValid}
       buttonText={buttonText}
+
     >
       <Input
         type="text"
@@ -34,18 +38,20 @@ function AddPlacePopup(props) {
         placeholder="Название"
         minLength="2"
         maxLength="30"
-        value={formValues.title}
-        handleChange={e => setFormValue({...formValues, title: e.target.value})}
+        value={values.title || ''}
+        handleChange={handleChange}
+        error={errors.title}
         required/>
       <Input
         type="url"
         id="image-url-input"
         inputClassName="popup__input popup__input_position_bottom"
         errorClassName="popup__input-error job-input-error"
-        name="url"
+        name="imageUrl"
         placeholder="Ссылка на картинку"
-        value={formValues.imageUrl}
-        handleChange={e => setFormValue({...formValues, imageUrl: e.target.value})}
+        value={values.imageUrl || ''}
+        handleChange={handleChange}
+        error={errors.imageUrl}
         required/>
     </PopupWithForm>
   )

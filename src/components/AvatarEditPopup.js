@@ -3,21 +3,23 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 import Input from "./Input";
+import {useFormAndValidation} from "../hooks/useFormAndValidation";
 
 function AvatarEditPopup(props) {
-  const [urlValue, setUrlValue] = React.useState('')
-  const [buttonText, setButtonText] = React.useState('Сохранить')
+  const [buttonText, setButtonText] = React.useState('Сохранить');
   // const imageUrl = React.useRef()
 
+  const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
+
   React.useEffect(() => {
-    setUrlValue('')
+    resetForm()
     // imageUrl.current.value = ''
   }, [props.isOpened])
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    props.onUpdateAvatar({imageUrl: urlValue, setButtonText})
+    props.onUpdateAvatar({imageUrl: values.avatarUrl, setButtonText})
     // props.onUpdateAvatar({imageUrl: imageUrl.current.value, setButtonText})
   }
 
@@ -29,6 +31,7 @@ function AvatarEditPopup(props) {
       onClose={props.onClose}
       handleSubmit={handleSubmit}
       buttonText={buttonText}
+      isValid={isValid}
     >
       {/*<input*/}
       <Input
@@ -37,10 +40,11 @@ function AvatarEditPopup(props) {
         // className="popup__input popup__input_position_top"
         inputClassName="popup__input popup__input_position_top"
         errorClassName="popup__input-error name-input-error"
-        name="url"
+        name="avatarUrl"
         placeholder="https://somewebsite.com/someimage.jpg"
-        value={urlValue}
-        handleChange={e => setUrlValue(e.target.value)}
+        value={values.avatarUrl || ''}
+        handleChange={handleChange}
+        error={errors.avatarUrl}
         // ref={imageUrl}
         required/>
       {/*<span className="popup__input-error avatar-url-input-error"/>*/}

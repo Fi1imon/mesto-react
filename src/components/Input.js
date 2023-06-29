@@ -1,20 +1,7 @@
 import React from "react";
-import {FormContext} from "../contexts/FormContext";
 
 function Input(props) {
-  const [errorText, setErrorText] = React.useState('')
-  const formContext = React.useContext(FormContext)
   const inputElement = React.createRef()
-
-  React.useEffect(() => {
-    if(inputElement.current.validity.valid) {
-      formContext.saveValidationResult(props.name, true)
-      setErrorText('')
-    } else {
-      formContext.saveValidationResult(props.name, false)
-      setErrorText(inputElement.current.validationMessage)
-    }
-  }, [props.value])
 
   return (
     <>
@@ -34,7 +21,7 @@ function Input(props) {
       <span
         className={props.errorClassName}
       >
-        {errorText}
+        {props.error}
       </span>
     </>
   )
